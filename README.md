@@ -5,7 +5,11 @@
 3. clone repository of yourselves to your local computer:
 ``git clone 'here is the url of your repository'`` url has no quotation: ' '.
 4. Add remote upstream repository, which is our public repository:
+<<<<<<< HEAD
 ``git remote add upstream 'public repository url'``
+=======
+``add remote add upstream 'public repository url'``
+>>>>>>> 017d7f47b90092a321324195620ccd0903202c61
 Check if it is there:
 ``git remote -v``
 5. Now fetch files from upstream repository:
@@ -70,6 +74,10 @@ git push origin --tags
 3. What kind of software development model we should use? Waterfall, Incremental.
 4. CI: Continue Integration, do we need CI in our project? How to do it?
 5. What does 'testing infrastructure and continuous integration infrastructure' mean? How to do test? Unit test, Integration test.
+<<<<<<< HEAD
 6. What're the features our web app should have? Creating channels, Joining channels, sending message to channels?
 
 some test
+=======
+6. What're the features our web app should have? Creating channels, Joining channels, sending message to channels?
+>>>>>>> 017d7f47b90092a321324195620ccd0903202c61
