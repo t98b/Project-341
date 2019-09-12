@@ -60,13 +60,7 @@ git checkout master
 git tag v1.0
 git push origin --tags
 ```
-*Or we may do this:*
-- Someone create a repository
-- everyone clone from this repository (they don't need to fork it)
-- everyone create a new branch for new feature or issue, and work on it.
-- when job is done on this branch, push this branch to remote repository (here needs the username and password of this repository owner's account), do not emerge this branch to master branch.
-- initiate a pull request for this branch, ask someone else to review it. If no problem, approve it to emerge to master branch.
-- in everyone's personal branch, they can do anything, but not allowed to emerge into master branch.
+
 
 ##Project Question
 1. Our team has only two members, OK?
