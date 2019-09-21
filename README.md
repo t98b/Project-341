@@ -1,5 +1,4 @@
-##How to use git and github in our project?
-
+##How to use git and github in ou
 1. Someone create a project repository, This is our public repository. Now it has only one branch: Master.
 2. Other members use their account fork this repository in github.
 3. clone repository of yourselves to your local computer:
