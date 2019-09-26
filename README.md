@@ -1,6 +1,6 @@
 # SOEN341 TEAM PROJECT
 
-### Introduction.
+### Introduction
 
 Our project is a Slack-like web application. Main goal of this application is to provide a nice conversation scene in workplace.
 Users can join in different channels based on different topics or departments. Users can create channels for designated topics, etc.
