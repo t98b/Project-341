@@ -14,4 +14,12 @@ Other features are on the way.
 - [Alexandre A.](https://github.com/Alxttar)
 - [Raffi B.](https://github.com/raffialan)
 
+### Technologies
+##### _Subject To Change_
+    - React
+    - Firebase
+    - Facebook SDK
+    - Bootstrap
+    - MongoDB
+
 *Checkout project [wiki page](https://github.com/Pirey96/Project-341/wiki) to access contribution guide and code convention, etc.*
