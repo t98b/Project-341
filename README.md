@@ -16,10 +16,10 @@ Other features are on the way.
 
 ### Technologies
 ##### _Subject To Change_
-    - React
-    - Firebase
-    - Facebook SDK
-    - Bootstrap
-    - MongoDB
+- React
+- Firebase
+- Facebook SDK
+- Bootstrap
+- MongoDB
 
 *Checkout project [wiki page](https://github.com/Pirey96/Project-341/wiki) to access contribution guide and code convention, etc.*
