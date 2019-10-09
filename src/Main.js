@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import ChatRoom from './Components/ChatRoom';
 
 export const Main = () => {
      return (
@@ -33,6 +34,7 @@ const UserInputSection = () => {
     return(
         <div className="main__layout--input">
             user input SECTION
+            <ChatRoom />
             {/* ADD YOU CODE IN THIS SECTION */}
         </div>
     );
