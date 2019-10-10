@@ -2,7 +2,7 @@
     font-family: 'Megrim';
     font-style: normal;
     font-weight: 400;
-    src: url('fonts/Megrim.ttf') format('truetype'); /* IE9 Compat Modes */
+
   }
 
 ::-webkit-input-placeholder {

@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 
+import Sender from '/Users/talalbazerbachi/Documents/GitHub/Project-341/src/components/Sender.js';
+import Messages from '/Users/talalbazerbachi/Documents/GitHub/Project-341/src/components/Messages.js';
+
 export const Main = () => {
      return (
          <div className='main__layout' > 
@@ -33,6 +36,7 @@ const UserInputSection = () => {
     return(
         <div className="main__layout--input">
             user input SECTION
+            <Sender />
             {/* ADD YOU CODE IN THIS SECTION */}
         </div>
     );
@@ -42,6 +46,8 @@ const MessageBoardSection = () => {
     return(
         <div className="main__layout--board">
             messages SECTION
+            <Messages />
+            
             {/* ADD YOU CODE IN THIS SECTION */}
         </div>
     );
