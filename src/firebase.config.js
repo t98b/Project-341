@@ -1,10 +1,11 @@
-
-
-export default{
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL:process.env.FIREBASE_DB_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGE_ID,
-}
+import firebase from 'firebase'
+var config={
+    apiKey: "AIzaSyAdjVrArdzogXCzHHiml4RT6RlrSsgJYdc",
+    authDomain: "chatapp-3c59f.firebaseapp.com",
+    databaseURL: "https://chatapp-3c59f.firebaseio.com",
+    projectId: "chatapp-3c59f",
+    storageBucket: "",
+    messagingSenderId: "427833839481",
+    appId: "1:427833839481:web:9e185203829bd5e155a9a8"
+};
+firebase.initializeApp(config);
