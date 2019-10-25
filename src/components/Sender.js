@@ -11,6 +11,7 @@ class Sender extends Component{
             message: '',
             messages:[]
         }
+        this.currentPhotoFile=null
     }
     //this is called 'life cycle method' function called by the system not the user
     componentDidMount(){
@@ -33,6 +34,7 @@ class Sender extends Component{
     
     submitMessage(event){
         const nextMessage={
+            //timestamp: timestamp,
             id:this.state.messages.length,
             text:this.state.message
         }
@@ -48,14 +50,6 @@ class Sender extends Component{
         )
     }
 }
-
-
-
-
-
-
-
-
 
 
 export default Sender;

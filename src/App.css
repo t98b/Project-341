@@ -35,6 +35,8 @@ button {
 .main__layout--board {
   height: calc(75% - 28px);
   background-color: yellow;
+  overflow: auto;
+  
 }
 
 .main__layout--search {
@@ -62,4 +64,5 @@ button {
 .main__layout--userInfo {
   height:56px;
   background-color: lightgray;
-}
+}}
+
