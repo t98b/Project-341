@@ -35,7 +35,6 @@ export const ChannelSection = (props) => {
         if(event.target.value.length > 0) {
             setDisabled(false);
         }
-        console.log(name);
     };
 
     const onChannelDescChange= (event) => {
@@ -46,11 +45,13 @@ export const ChannelSection = (props) => {
     };
 
     const onSubmit = () => {
+        const currentDate = new Date();
         firebase.firestore().collection('channels').add({
             name: name,
             privateChannel: privateChannel,
             messages: [],
-            description: desc
+            description: desc,
+            date: currentDate
         });
         close(); //close pop-up after adding channel
     };
@@ -61,7 +62,10 @@ export const ChannelSection = (props) => {
             label={'Channels'} 
             onClick={click}
             />
-            <Channels channels={props.channels} />
+            <Channels 
+            channels={props.channels} 
+            onClick={props.onClick}
+            />
            { showOverlay ? <PopUpAddChannel 
            disabled={disabled}
            closeOverlay={close} 
@@ -78,7 +82,7 @@ export const ChannelSection = (props) => {
 const Channel = (props) => {
     return (
         <div className="section__channel container_channel">
-            <span><span className="section__channel--hashtag">#</span>{props.name}</span>
+            <span className="section__channel--hashtag">#</span> <span onClick={props.onClick}>{props.name}</span>
         </div>
     );
 }
@@ -88,8 +92,8 @@ const Channels = (props) => {
     const channels = props.channels;
     return (
         <div className="section__channels">
-            { channels.map((channel, index) => 
-                <Channel key={index} name={channel.name} />
+            { channels.map((channel) => 
+                <Channel key={channel.id} name={channel.name} onClick={props.onClick}/>
             )}
         </div>
     );

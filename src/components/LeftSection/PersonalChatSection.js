@@ -12,3 +12,22 @@ export const PersonalChatSection = () => {
         </div>
     );
 };
+
+const DirectMessage = (props) => {
+    return (
+        <div className="section__channel container_channel">
+            <span onClick={props.onClick}>{props.name}</span>
+        </div>
+    );
+}
+
+const DirectMessages = (props) => {
+    const chats = props.chats;
+    return (
+        <div className="section__channels">
+            { chats.map((chat) => 
+                <DirectMessage key={chat.id} name={chat.name} onClick={props.onClick} />
+            )}
+        </div>
+    );
+}

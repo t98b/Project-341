@@ -5,28 +5,30 @@ import { RegularStarIcon, UserIcon, PenIcon } from './../../shared/Icon';
 import ReactTooltip from 'react-tooltip'
 
 export const BoardHeader = (props) => {
+    const data = props.data;
     return(
         <div className="board-header">
-            <div className="board-header__title-section">
-                <span className="board-header__title-name">#{props.channelName}test1234</span>
-                <span className="board-header__title-icons">
-                    <span data-tip="Star this channel" className="board-icon board-icon--star"> 
-                        <RegularStarIcon />
-                    </span> 
-                    <span className="board-seperator">|</span>
-                    <span className="board-icon board-icon--user"> 
-                        <UserIcon /> {props.usersCount}
-                    </span> 
-                    <span className="board-seperator">|</span> 
-                    <span className="board-icon board-icon--star"> 
-                        <RegularStarIcon />
-                    </span> 
-                    <span className="board-seperator">|</span> 
-                    <AddTopicField />
-                </span>
-            </div>
+            {data &&             
+                <div className="board-header__title-section">
+                    <span className="board-header__title-name">#{data.name}</span>
+                    <span className="board-header__title-icons">
+                        <span data-tip="Star this channel" className="board-icon board-icon--star"> 
+                            <RegularStarIcon />
+                        </span> 
+                        <span className="board-seperator">|</span>
+                        <span className="board-icon board-icon--user"> 
+                            <UserIcon /> {props.users}
+                        </span> 
+                        <span className="board-seperator">|</span> 
+                        <span className="board-icon board-icon--star"> 
+                            <RegularStarIcon />
+                        </span> 
+                        <span className="board-seperator">|</span> 
+                        <AddTopicField />
+                    </span>
+                </div>
+            }
             <div className="board-header__search-section">
-                hi
             </div>
             <ReactTooltip className="tool-tip" place="bottom" type="dark" effect="solid" delayShow={200}/>
         </div>
