@@ -66,7 +66,7 @@ button {
 .label__header {
   font-size: 15px;
   cursor: pointer;
-  transition: color .1s ease-out; 
+  transition: color .1s ease-out;
 }
 
 .label__header--title {
@@ -176,7 +176,7 @@ button {
 }
 
 .login__field:focus {
-  border-color: black;   
+  border-color: black;
 }
 
 .popUp {
