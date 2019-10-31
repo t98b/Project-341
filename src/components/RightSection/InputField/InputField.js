@@ -8,6 +8,8 @@ export const InputField = (props) => {
     const [message, setMessage] = useState('');
     const path = props.path;
     const context = props.context;
+    const sendTo = props.sendTo;
+    console.log(sendTo);
 
     const onChange = (event) => {
         setMessage(event.target.value);
@@ -25,7 +27,10 @@ export const InputField = (props) => {
                 user: props.user,
                 timestamp: new Date()
             }
-            firebase.firestore().collection('messages').doc(`${props.sendTo}`).add(newMessage);
+            let messagesRef = firebase.firestore().collection('channels').doc(sendTo);
+            messagesRef.update({
+                messages: firebase.firestore.FieldValue.arrayUnion(newMessage)
+            });
         }
         setMessage('');
     }

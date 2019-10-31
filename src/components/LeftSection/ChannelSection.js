@@ -93,7 +93,7 @@ const Channels = (props) => {
     return (
         <div className="section__channels">
             { channels.map((channel) => 
-                <Channel key={channel.id} name={channel.name} onClick={props.onClick} id={channel.id}/>
+                <Channel key={channel.id} name={channel.name} onClick={props.onClick}/>
             )}
         </div>
     );

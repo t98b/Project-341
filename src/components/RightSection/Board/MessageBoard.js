@@ -5,7 +5,6 @@ import moment from 'moment';
 import { UserIcon, PenIcon } from './../../shared/Icon';
 
 export const MessageBoard = (props) => {
-    const currentUser = "Alex";
     const data = props.data;
     const messages = data !== undefined ? data.messages : null;
 
@@ -47,7 +46,7 @@ const MessageSection = (props) => {
 
     const setNewValue = (message) => {
         lastTime = message.time;
-        lastUser = message.username;
+        lastUser = message.user;
     }
     
     return(
@@ -58,11 +57,11 @@ const MessageSection = (props) => {
             {messages && messages.map(message => 
                 <li key={message.id}>
                     {isLongDelay(message.time) ? <TimeSeperator time={message.time} /> : null}
-                    {isDifferentUser(message.username) || isLongDelay(message.time) ? 
+                    {isDifferentUser(message.user) || isLongDelay(message.time) ? 
                         <MessageHeader 
                         date={message.time} 
-                        username={message.username} 
-                        message={message.text}
+                        user={message.user} 
+                        message={message.message}
                         /> : 
                         <SimpleMessage time={message.time} message={message.text} />
                     }
@@ -74,7 +73,7 @@ const MessageSection = (props) => {
 };
 
 const  UserAvatar = (props) => {
-    const getFirstUserInitial = props.username.charAt(0);
+    const getFirstUserInitial = props.user.charAt(0);
     return (
         <div className="user-message-avatar">
             <span className="user-message-initial">{getFirstUserInitial}</span>
@@ -86,7 +85,7 @@ const ChatUserName = (props) => {
     return(
         <div className="">
             <span className="user-message-username">
-                {props.username} 
+                {props.user} 
                 <span className="user-message-timestamp">
                 {formatTime(props.time)}
                 </span>
@@ -98,9 +97,9 @@ const ChatUserName = (props) => {
 const MessageHeader = (props) => {
     return (
         <div className="message-container">
-            <UserAvatar username={props.username}/>
+            <UserAvatar user={props.user}/>
             <div className="message-header-container">
-                <ChatUserName username={props.username} time={props.date}/>
+                <ChatUserName user={props.user} time={props.date}/>
                 <span className="user-message">{props.message}</span>
             </div>
         </div>

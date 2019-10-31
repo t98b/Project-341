@@ -15,7 +15,7 @@ export const Main = () => {
     useEffect(() => {
         setLoading(true);
         let channelsAr = [];
-    
+        
         firebase.firestore().collection("channels").onSnapshot((snap) => {
             snap.forEach(channel => {
                 channelsAr.push({
@@ -23,21 +23,25 @@ export const Main = () => {
                     id: channel.id
                 });
             });
+
             setChannels(channelsAr);
-            setBoardData(channels[0]);
             setLoading(false);
             console.log("New channels set", channels);
         });
+
+        setSendTo(channels.id);
     }, [channels.length]);
 
     const clickMenu = (event) => {
         setTargetName(event.target.innerText);
         getChannelData(event.target.innerText);
     };
+    
 
     const getChannelData = (menu) => {
         for(const channel of channels) {
             if (channel.name === menu) {
+                setSendTo(channel.id)
                 return setBoardData(channel);
             }
         }
