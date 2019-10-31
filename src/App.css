@@ -35,8 +35,8 @@ button {
 .main__layout--board {
   height: calc(75% - 28px);
   background-color: yellow;
-  overflow: auto;
-  
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .main__layout--search {
@@ -45,7 +45,7 @@ button {
 }
 
 .main__layout--input {
-  height:calc(30% - 28px);
+  height: calc(30% - 28px);
   background-color: pink;
 }
 
@@ -62,7 +62,14 @@ button {
 }
 
 .main__layout--userInfo {
-  height:56px;
+  height: 56px;
   background-color: lightgray;
-}}
+}
 
+/* .messagesSection {
+  overflow: scroll;
+}
+
+.ol1 {
+  overflow: scroll;
+} */
