@@ -9,7 +9,7 @@ export const LeftSection = (props) => {
     return(
         <div className="main__layout--leftPannel">
             <UserInfoSection />
-            <ChannelSection channels={props.channels}/>
+            <ChannelSection channels={props.channels} onClick={props.onClick}/>
             <PersonalChatSection />
         </div>
     );

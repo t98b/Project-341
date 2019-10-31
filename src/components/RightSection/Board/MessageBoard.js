@@ -4,37 +4,23 @@ import './../../Main.css';
 import moment from 'moment';
 import { UserIcon, PenIcon } from './../../shared/Icon';
 
-export const MessageBoard = () => {
+export const MessageBoard = (props) => {
     const currentUser = "Alex";
-    const date = new Date()
-    const date2 = new Date('1995-12-17T03:24:00');
-    const messages = [
-        {
-            id: 1,
-            text: "test TEXT 1",
-            time: date,
-            username: 'Alex'
-        },
-        {
-            id: 2,
-            text: "test TEXT 2",
-            time: date2,
-            username: 'Alex'
-        },
-    ];
+    const data = props.data;
+    const messages = data !== undefined ? data.messages : null;
 
     return(
-        <MessageSection messages={messages} />
+        <MessageSection messages={messages} data={data}/>
     );
 };
 
-
 const MessageSection = (props) => {
     const messages = props.messages;
-    const firstMessage = props.messages[0]
+    const data = props.data;
+    const firstMessage = props.messages && props.messages.length > 0 ? props.messages[0] : null;
 
     let lastUser = '';
-    let lastTime = firstMessage.time;
+    let lastTime = firstMessage ? firstMessage.time : new Date();
 
     const isDifferentUser = (LastMessageUser) => { 
         if(lastUser !== LastMessageUser) {
@@ -66,8 +52,10 @@ const MessageSection = (props) => {
     
     return(
         <React.Fragment>
-            <FirstMessage />
-            {messages.map(message => 
+            <FirstMessage 
+            data={data}
+            />
+            {messages && messages.map(message => 
                 <li key={message.id}>
                     {isLongDelay(message.time) ? <TimeSeperator time={message.time} /> : null}
                     {isDifferentUser(message.username) || isLongDelay(message.time) ? 
@@ -142,15 +130,21 @@ const SimpleMessage = (props) => {
 
 
 const FirstMessage = (props) => {
+    const data = props.data;
     return(
         <div className="message-foreword">
-            <span className="foreword-title">test1234</span>
-            <span className="foreword-description">You created this channel on {props.creationDate}. This is the very beginning of the <b>{props.channelName}</b> channel.</span>
-            <span className="foreword-buttons-container">
-                <ForeWordButton label={"Set a description"} icon={<PenIcon />}/> 
-                <ForeWordButton label={"Add an app"} isDisabled={true} icon={'+'}/> 
-                <ForeWordButton label={"Add people to this channel"} icon={<UserIcon />}/> 
-            </span>
+            {data !== undefined ? 
+                <React.Fragment>
+                    <span className="foreword-title">{data.name}</span>
+                    <span className="foreword-description">You created this channel on {moment.unix(data.date.seconds).format("dddd, MMMM Do")}. This is the very beginning of the <b>{data.name}</b> channel.</span>
+                    <span className="foreword-buttons-container">
+                        <ForeWordButton label={"Set a description"} icon={<PenIcon />}/> 
+                        <ForeWordButton label={"Add an app"} isDisabled={true} icon={'+'}/> 
+                        <ForeWordButton label={"Add people to this channel"} icon={<UserIcon />}/> 
+                    </span>
+                </React.Fragment>
+                : null
+            }
         </div>
     );
 }

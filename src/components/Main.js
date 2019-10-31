@@ -6,49 +6,51 @@ import firebase from 'firebase';
 
 export const Main = () => {
     const [channels, setChannels] = useState([]);
-
-    firebase.firestore().collection("channels").get().then((doc) => {
-        if (doc.exists) {
-            console.log("Document data:", doc.data());
-            setChannels(doc);
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
+    const [targetName, setTargetName] = useState('');
+    const [context, setContext] = useState('');
+    const [boardData, setBoardData] = useState(channels[0]);
+    const [sendTo, setSendTo] = useState(channels[0]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         let channelsAr = [];
-        
-        firebase.firestore().collection("channels").get().then((doc) => {
-            if (doc.exists) {
-                console.log("Document data:", doc.data());
-                setChannels(doc);
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-            }
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
-        });
-
-        firebase.firestore().collection("channels").onSnapshot((channels) => {
-            channels.forEach(channel => {
-                console.log(channel.data());
-                console.log(channel.id);
-                //firebase.firestore().collection("channels").doc(channel.id).set({id:channel.id});
-                channelsAr.push(channel.data());
+    
+        firebase.firestore().collection("channels").onSnapshot((snap) => {
+            snap.forEach(channel => {
+                channelsAr.push({
+                    ...channel.data(),
+                    id: channel.id
+                });
             });
+            setChannels(channelsAr);
+            setBoardData(channels[0]);
+            setLoading(false);
+            console.log("New channels set", channels);
         });
-        setChannels(channelsAr);
-    }, []);
+    }, [channels.length]);
+
+    const clickMenu = (event) => {
+        setTargetName(event.target.innerText);
+        getChannelData(event.target.innerText);
+    };
+
+    const getChannelData = (menu) => {
+        for(const channel of channels) {
+            if (channel.name === menu) {
+                return setBoardData(channel);
+            }
+        }
+    }
 
      return (
-         <div className='main__layout' > 
-            <LeftSection channels={[channels]}></LeftSection>
-            <RightSection></RightSection>
+         <div className='main__layout' >
+             {!loading && 
+             <React.Fragment>
+                <LeftSection channels={channels} onClick={clickMenu} />
+                <RightSection sendTo={sendTo} data={boardData} />
+             </React.Fragment>
+             }
          </div>
      );
 };
