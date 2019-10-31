@@ -25,15 +25,19 @@ export const App = () => {
     });
   }
   
-  Notification.requestPermission().then((permission) => {
-    if (permission === 'granted') {
-      console.log('Notification permission granted.');
-      // TODO(developer): Retrieve an Instance ID token for use with FCM.
-      // ...
-    } else {
-      console.log('Unable to get permission to notify.');
+  useEffect(() => {
+    if (typeof Notification !== 'undefined') {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          console.log('Notification permission granted.');
+          // TODO(developer): Retrieve an Instance ID token for use with FCM.
+          // ...
+        } else {
+          console.log('Unable to get permission to notify.');
+        }
+      });
     }
-  });
+  }, []);
 
   return (
     <div className="App">
