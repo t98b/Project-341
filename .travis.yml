@@ -1,2 +1,15 @@
-language: nodejs
-script: ant
+language: node_js
+node_js:
+ -7
+"scripts": {
+  "test": "vows --spec"
+},
+
+before_script:
+  - npm install -g gulp-cli
+script: gulp
+
+before_install:
+  - npm i -g npm@version-number
+
+cache: npm
