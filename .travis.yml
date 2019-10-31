@@ -1,2 +1,2 @@
 language: nodejs
-script: ant compile
+script: ant
