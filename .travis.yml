@@ -1,9 +1,11 @@
 language: node_js
 node_js:
-  - "stable"
+  - 10
+  - node
 git:
   quite: true
   depth: 1
   submodules: false
-cache: npm
+cache: 
+	directory: node_modules
 script: npm run-script build
