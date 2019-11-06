@@ -6,5 +6,5 @@ git:
   depth: 1
   submodules: false
 cache: 
-	directory: node_modules
+  directory: node_modules
 script: npm run-script build
