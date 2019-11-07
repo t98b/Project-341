@@ -1,6 +1,13 @@
 language: node_js
 node_js:
-  - "8"
-"scripts": {
-    "test": "react-scripts test",
-  }
+  - "10"
+git:
+  quite: true
+  depth: 1
+  submodules: false
+cache: npm
+test: npm run test
+script: 
+ - unset CI
+ 
+
