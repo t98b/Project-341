@@ -9,5 +9,5 @@ cache: npm
 test: npm run test
 script: 
  - unset CI
- - npm test
+ - npm test -- --watchAll=false
  - npm run build
