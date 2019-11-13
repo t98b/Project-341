@@ -7,7 +7,7 @@ git:
   submodules: false
 cache: npm
 test: npm run test
-script: 
+script:
  - unset CI
- - npm test -- --watchAll=false
  - npm run build
+ - npm test -- --watchAll=false
