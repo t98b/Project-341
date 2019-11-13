@@ -10,4 +10,3 @@ test: npm run test
 script:
  - unset CI
  - npm run build
- - npm test -- --watchAll=false
