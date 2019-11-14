@@ -6,7 +6,6 @@ git:
   depth: 1
   submodules: false
 cache: npm
-test: npm run test
 script:
  - unset CI
  - npm run build
