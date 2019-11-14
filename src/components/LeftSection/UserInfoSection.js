@@ -3,20 +3,20 @@ import './../Main.css';
 import './../../App.css';
 import { ChevronDownIcon } from '../shared/Icon';
 
-export const UserInfoSection = () => {
+export const UserInfoSection = (props) => {
     return(
         <div className="main__layout--userInfo">
             <ChannelName />
-            <div><StatusIndicator/></div>
+            <div><StatusIndicator user={props.user}/></div>
         </div>
     );
 };
 
 const StatusIndicator = (props) => {
-
+    const user = props.user;
     return (
         <div className="status-indicator">
-            <span className="status-username">Alex</span>
+            <span className="status-username">{user.uid}</span>
         </div>
     );
 }
