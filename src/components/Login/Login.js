@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './Login.css';
 import { EyeIcon, EyeSlashIcon } from './../shared/Icon.js';
-import firebase from 'firebase';
+import firebase from './../../firebase.config';
 
 
 export const Login = () => {
@@ -34,22 +34,47 @@ const Slackish = () => {
 };
 
 const LoginForm = (props) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [hidePassword, setHidePassword] = useState('password');
 
     const hidePasswordToggle = () => {
         return hidePassword === 'text' ? setHidePassword('password') : setHidePassword('text');
     }
 
+    const onEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+
+    const onPasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        // const {email, password} = this.state;
+        firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+            firebase.auth().currentUser;
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+
     return (  
         <div>
-            <TextField placeholder={'Username/Email'}></TextField>
+            <TextField 
+            placeholder={'Email'}
+            onChange={onEmailChange}>
+            </TextField>
             <PasswordField 
             type={hidePassword} 
             placeholder={'Password'}
             hidePasswordToggle={hidePasswordToggle}
             hidePassword={hidePassword}
+            onChange={onPasswordChange}
             ></PasswordField>
-            <LoginButton label={'Sign In'}></LoginButton>
+            <LoginButton label={'Sign In'} action={handleSubmit}></LoginButton>
             <SignUpButton showSignUp={props.showSignUp}></SignUpButton>
             {/* Facebook Button */}
             <div className="fb-login-button" 
@@ -68,45 +93,77 @@ const SignUpForm = (props) => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
+    const onEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const onUsernameChange = (event) => {
+        setUsername(event.target.value);
+    };
+
+    const onPasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+
+    const onConfirmPasswordChange = (event) => {
+        setConfirmPassword(event.target.value);
+    };
 
     const hidePasswordToggle = () => {
         return hidePassword === 'text' ? setHidePassword('password') : setHidePassword('text');
     }
 
+    const signUp = () => {
+        firebase.auth().createUserWithEmailAndPassword(email, password).then((result) => {
+            firebase.auth().currentUser;
+            console.log(result);
+        }).catch(function(error) {
+            // Handle Errors here.
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+            // ...
+        });
+    }
+
     const handleSubmit = event => {
-        event.preventDefault();
-        const {email, username, password} = this.state;
-        firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-            const user = firebase.auth().currentUser;
-            user.updateProfile({displayName: username}).then(() => {
-                this.props.history.push('/');
-            })
-            .catch(error => {
+        if (password === confirmPassword) {
+            event.preventDefault();
+            // const {email, username, password} = this.state;
+            firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+                // const user = firebase.auth().currentUser;
+                // user.updateProfile({displayName: username}).then(() => {
+                //     this.props.history.push('/');
+                // })
+                // .catch(error => {
+                //     this.setState({error});
+                // });
+            }).catch(error => {
                 this.setState({error});
             });
-        }).catch(error => {
-            this.setState({error});
-        });
+        }
     }
 
     return (  
         <div className="container__signUp">
-            <TextField placeholder={'Username'}></TextField>
-            <TextField placeholder={'Email'}></TextField>
+            <TextField placeholder={'Username'} onChange={onUsernameChange}></TextField>
+            <TextField placeholder={'Email'} onChange={onEmailChange}></TextField>
             <PasswordField className="login__field--signUp" 
             type={hidePassword} 
             placeholder={'Password'}
             hidePasswordToggle={hidePasswordToggle}
             hidePassword={hidePassword}
+            onChange={onPasswordChange}
             ></PasswordField>
             <PasswordField className="login__field--signUp" 
             type={hidePassword} 
             placeholder={'Confirm password'}
             hidePasswordToggle={hidePasswordToggle}
             hidePassword={hidePassword}
+            onChange={onConfirmPasswordChange}
             ></PasswordField>
-            <LoginButton label={'Sign me up!'}></LoginButton>
+            <LoginButton label={'Sign me up!'} action={handleSubmit}></LoginButton>
             <CancelButton goBackTo={props.goBackTo}></CancelButton>
         </div>
     );
@@ -118,7 +175,8 @@ const TextField = (props) => {
             <input
             type={props.type}
             className='login__field'
-            placeholder={props.placeholder}>
+            placeholder={props.placeholder}
+            onChange={props.onChange}>
             </input>
         </div>
     );
@@ -130,7 +188,8 @@ const PasswordField = (props) => {
             <input
             type={props.type}
             className='login__field'
-            placeholder={props.placeholder}>
+            placeholder={props.placeholder}
+            onChange={props.onChange}>
             </input>
             <span className="login__icon" onClick={props.hidePasswordToggle}> {props.hidePassword === 'text' ? <EyeIcon /> : <EyeSlashIcon />} </span>
         </div>
@@ -139,7 +198,7 @@ const PasswordField = (props) => {
 
 const LoginButton = (props) => {
     return (
-        <button className="login__button login__button--email">
+        <button className="login__button login__button--email" onClick={props.action}>
             {props.label}
         </button>
     );

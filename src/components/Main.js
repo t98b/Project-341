@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import { LeftSection } from './LeftSection/LeftSection';
 import './../App.css';
 import { RightSection } from './RightSection/RightSection';
-import firebase from 'firebase';
+import firebase from './../firebase.config';
 
-export const Main = () => {
+export const Main = (props) => {
     const [channels, setChannels] = useState([]);
     const [targetName, setTargetName] = useState('');
     const [context, setContext] = useState('');
@@ -28,7 +28,6 @@ export const Main = () => {
                 });
             });
              setData(channelsAr);
-             
         });
     }
 
@@ -63,7 +62,7 @@ export const Main = () => {
                  {
                  loading ? <h1>HELLO</h1>:
                     <React.Fragment>
-                        <LeftSection channels={channels} onClick={clickMenu} />
+                        <LeftSection channels={channels} onClick={clickMenu} user={props.user}/>
                         <RightSection sendTo={sendTo} data={boardData} />
                     </React.Fragment>
                  }

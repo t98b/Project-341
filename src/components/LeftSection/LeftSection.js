@@ -8,7 +8,7 @@ import { tsPropertySignature } from '@babel/types';
 export const LeftSection = (props) => {
     return(
         <div className="main__layout--leftPannel">
-            <UserInfoSection />
+            <UserInfoSection user={props.user}/>
             <ChannelSection channels={props.channels} onClick={props.onClick}/>
             <PersonalChatSection />
         </div>
