@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './Login.css';
 import { Eye, EyeSlash } from '../Icon.js';
+import firebase from 'firebase';
 
 export const Login = () => {
 
@@ -39,20 +40,30 @@ const LoginForm = (props) => {
         return hidePassword === 'text' ? setHidePassword('password') : setHidePassword('text');
     }
 
+    const login = () => {
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+            //Here we can add a toast or some other sort of feature to
+            //indicate an error state.
+            //Handle Errors here.
+            //var errorCode = error.code;
+            // errorMessage = error.message;
+        });
+    }
+
     return (  
         <div>
-            <TextField placeholder={'Username/Email'}></TextField>
+            <TextField placeholder={'Email'}></TextField>
             <PasswordField 
             type={hidePassword} 
             placeholder={'Password'}
             hidePasswordToggle={hidePasswordToggle}
             hidePassword={hidePassword}
             ></PasswordField>
-            <LoginButton label={'Sign In'}></LoginButton>
+            <LoginButton label={'Sign In'} action={login}></LoginButton>
             <SignUpButton showSignUp={props.showSignUp}></SignUpButton>
             {/* Facebook Button */}
             <div className="fb-login-button" 
-            data-width="180" 
+            data-width="480" 
             data-size="large" 
             data-button-type="continue_with" 
             data-auto-logout-link="false" 
@@ -66,13 +77,20 @@ const SignUpForm = (props) => {
     const [hidePassword, setHidePassword] = useState('password');
 
     const hidePasswordToggle = () => {
-        console.log(hidePassword === 'text');
         return hidePassword === 'text' ? setHidePassword('password') : setHidePassword('text');
+    }
+
+    const signUp = () => {
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+            // Handle Errors here.
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+            // ...
+        });
     }
 
     return (  
         <div className="container__signUp">
-            <TextField placeholder={'Username'}></TextField>
             <TextField placeholder={'Email'}></TextField>
             <PasswordField className="login__field--signUp" 
             type={hidePassword} 
@@ -86,7 +104,7 @@ const SignUpForm = (props) => {
             hidePasswordToggle={hidePasswordToggle}
             hidePassword={hidePassword}
             ></PasswordField>
-            <LoginButton label={'Sign me up!'}></LoginButton>
+            <LoginButton label={'Sign me up!'} action={signUp}></LoginButton>
             <CancelButton goBackTo={props.goBackTo}></CancelButton>
         </div>
     );
@@ -119,7 +137,7 @@ const PasswordField = (props) => {
 
 const LoginButton = (props) => {
     return (
-        <button className="login__button login__button--email">
+        <button className="login__button login__button--email" onClick={props.action}>
             {props.label}
         </button>
     );

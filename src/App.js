@@ -3,7 +3,7 @@ import "./App.css";
 import { Login } from "./components/Login/Login";
 import { Main } from "./components/Main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import firebase from "./firebase.js";
+import firebase from "firebase";
 
 const App = () => {
   const [token, setToken] = useState();

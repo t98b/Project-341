@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import './Login.css';
 import { EyeIcon, EyeSlashIcon } from './../shared/Icon.js';
-import firebase from './../../firebase.js'
+import firebase from 'firebase';
+
 
 export const Login = () => {
 
