@@ -1,5 +1,5 @@
 # SOEN341 TEAM PROJECT
-
+[![Build Status](https://travis-ci.org/Pirey96/Project-341.svg?branch=master)](https://travis-ci.org/Pirey96/Project-341)
 ### Introduction
 
 Our project is a Slack-like web application. Main goal of this application is to provide a nice conversation scene in workplace.

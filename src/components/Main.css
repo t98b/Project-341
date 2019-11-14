@@ -5,11 +5,11 @@
 
 .floatingField_container {
   margin-top: 2%;
-  padding-top:10px;
-  padding-bottom:10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   border-radius: 5px;
   border: 1px solid darkgray;
-  display:block;
+  display: block;
 }
 
 .floatingField_container:focus-within {
@@ -24,11 +24,11 @@
 
 .floatingField_container--error {
   margin-top: 2%;
-  padding-top:10px;
-  padding-bottom:10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   border-radius: 5px;
   border: 1px solid darkgray;
-  display:block;
+  display: block;
 }
 
 .floatingField_container--error:focus-within {
@@ -45,7 +45,7 @@
   margin-left: 12px;
   padding-right: 4px;
   font-size: 18px;
-  color: rgba(29,28,29,0.7);
+  color: rgba(29, 28, 29, 0.7);
   line-height: 1.33333333;
 }
 
@@ -53,7 +53,6 @@
   width: 85%;
   font-size: calc(2vw - 15px);
   border: none;
-
 }
 
 .floatingField__length {
@@ -62,7 +61,7 @@
 }
 
 .floatingField__length--ok {
-  color:grey;
+  color: grey;
 }
 
 .floatingField__length--error {
@@ -72,7 +71,7 @@
 .floatingField__header {
   color: #1d1c1d;
   position: relative;
-  display:inline-block;
+  display: inline-block;
   padding-right: 4px;
   font-weight: 600;
   line-height: 8px;
@@ -96,7 +95,7 @@
   color: #e8912d;
 }
 
-.popUp__top{
+.popUp__top {
   text-align: left;
   padding: 20px 28px;
   color: #1d1c1d;
@@ -126,8 +125,8 @@
   justify-content: center;
   border-radius: 4px;
 }
-.popUp__closeButton::before{
-  content:"\00d7";
+.popUp__closeButton::before {
+  content: "\00d7";
   font-size: 26px;
   font-style: normal;
   font-weight: 300;
@@ -135,20 +134,20 @@
 }
 
 .popUp__closeButton:hover {
-  background-color: rgba(29,28,29, 0.13);
-  color:black;
+  background-color: rgba(29, 28, 29, 0.13);
+  color: black;
 }
 
 .popUp__closeButton:active {
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .popUp_briefDesc {
-  font-size: 15px;;
+  font-size: 15px;
   color: #6d6c6c;
 }
 
-.popUp__body{
+.popUp__body {
   padding: 0px 26px;
 }
 
@@ -171,7 +170,7 @@
   border-radius: 4px;
 }
 .basicButton--disabled {
-  background-color: rgba(29,28,29,0.13);
+  background-color: rgba(29, 28, 29, 0.13);
 }
 
 .basicButton--disabled {
@@ -179,26 +178,26 @@
 }
 
 .basicButton--enabled {
-  background-color:green;
+  background-color: green;
 }
 
 .toggle__container {
   width: 56px;
   height: 30px;
-  border-style:solid;
+  border-style: solid;
   border-width: 1px;
   border-color: #4f4f4f;
   border-radius: 16px;
   display: flex;
   position: relative;
-  align-items: center; 
+  align-items: center;
   cursor: pointer;
-  float:right;
+  float: right;
 }
 .toggle__container:hover {
-  -webkit-box-shadow: inset 0px 0px 0px 1px rgba(79, 79, 79,1);
-  -moz-box-shadow: inset 0px 0px 0px 1px rgba(79, 79, 79,1);
-  box-shadow: inset 0px 0px 0px 1px rgba(79, 79, 79,1);
+  -webkit-box-shadow: inset 0px 0px 0px 1px rgba(79, 79, 79, 1);
+  -moz-box-shadow: inset 0px 0px 0px 1px rgba(79, 79, 79, 1);
+  box-shadow: inset 0px 0px 0px 1px rgba(79, 79, 79, 1);
 }
 
 .toggle__container:focus {
@@ -210,16 +209,16 @@
 .toggle__container--selected {
   width: 54px;
   height: 30px;
-  border-style:solid;
+  border-style: solid;
   border-width: 1px;
   border-color: #1b825c;
   border-radius: 16px;
   background-color: #1f8e65;
   display: flex;
   position: relative;
-  align-items: center; 
+  align-items: center;
   cursor: pointer;
-  float:right;
+  float: right;
 }
 
 .toggle__childSwitch {
@@ -227,7 +226,7 @@
   height: 20px;
   border-radius: 50%;
   position: absolute;
-  left:6px;
+  left: 6px;
   background-color: #5e5e5e;
   transition: all ease-in-out 0.2s;
   -webkit-transition: all ease-in-out 0.2s;
@@ -259,9 +258,9 @@
   display: flex;
   width: 100%;
   position: relative;
-  align-items: center; 
-  margin-top:30px;
-  margin-bottom:30px;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .floatingField__underField {
@@ -325,7 +324,7 @@
   border-width: 1px;
   border-radius: 4px;
   border-style: solid;
-  border-color: rgba(29,28,29,.5);
+  border-color: rgba(29, 28, 29, 0.5);
   padding-bottom: 4px;
   padding-top: 4px;
   padding-left: 4px;
@@ -347,7 +346,7 @@
 
 .input-field-container--inputField::placeholder {
   text-align: left;
-  color: rgba(29,28,29,.45);
+  color: rgba(29, 28, 29, 0.45);
 }
 
 .input-field-container--icon {
@@ -361,8 +360,12 @@
   min-width: 32px;
   max-width: 32px;
   z-index: 200;
-  color: rgba(29,28,29,.45);
+  color: rgba(29, 28, 29, 0.45);
 }
+
+/* #image-input {
+  display: none;
+} */
 
 .input-field-container--icon:hover {
   background-color: #007a5a;
@@ -375,7 +378,7 @@
 
 .main__layout--leftPannel {
   display: inline-block;
-  background-color:#191d20;
+  background-color: #191d20;
   text-align: left;
   color: #e5e5e5;
   height: 100vh;
@@ -390,7 +393,7 @@
   padding: 8px 8px 8px 20px;
   border-style: solid;
   border-width: 1px;
-  border-top:none;
+  border-top: none;
   border-right: none;
   border-left: none;
   border-color: #e2e2e2;
@@ -417,7 +420,7 @@
   font-size: 13px;
   line-height: 1.38463;
   font-weight: 400;
-  color: rgba(29,28,29,.40);
+  color: rgba(29, 28, 29, 0.4);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -425,7 +428,7 @@
 }
 
 .board-icon {
-  color: rgba(29,28,29,.75);
+  color: rgba(29, 28, 29, 0.75);
 }
 
 .board-icon--star {
@@ -433,7 +436,7 @@
 }
 
 .board-icon--star:hover {
-  color: #F2C744;
+  color: #f2c744;
 }
 
 .board-icon--user {
@@ -441,7 +444,7 @@
 }
 
 .board-icon--user:hover {
-  color: #1265A3;
+  color: #1265a3;
 }
 
 .board-seperator {
@@ -461,7 +464,6 @@
   padding-right: 18px;
 }
 
-
 .add-field-container:hover + .header-button__edit {
   display: block;
 }
@@ -477,11 +479,11 @@
 }
 
 .container-inlineFlex > .container-add-topic:hover > .add-field-container {
-  border-color: rgba(29,28,29,.3);
+  border-color: rgba(29, 28, 29, 0.3);
 }
 
 .light-grey {
-  color: rgba(29,28,29,.3);
+  color: rgba(29, 28, 29, 0.3);
 }
 
 .clickable {
@@ -496,13 +498,13 @@
 }
 
 .header-button__edit:hover {
-  display:block;
+  display: block;
   text-decoration: underline;
 }
 
 .header-button__edit:hover + .add-field-container {
   background-color: red;
-  border-color: red
+  border-color: red;
 }
 
 .pen-icon {
@@ -514,16 +516,16 @@
   font-size: 15.3334px;
 }
 
-.user-message-avatar { 
-  display:flex;
+.user-message-avatar {
+  display: flex;
   align-items: center;
   justify-content: center;
   height: 36px;
   width: 36px;
-  margin-left:20px;
+  margin-left: 20px;
   margin-right: 8px;
   background-color: #f8f8f8;
-  color: #1D9BD1;
+  color: #1d9bd1;
   border-radius: 3px;
 }
 
@@ -551,7 +553,7 @@
 }
 
 .message-container {
-  display:flex;
+  display: flex;
   position: relative;
   align-items: center;
   width: 100%;
@@ -580,22 +582,22 @@
   padding-right: 4px;
   font-size: 26px;
   font-weight: 400;
-  -webkit-user-select: none;  /* Chrome all / Safari all */
-  -moz-user-select: none;     /* Firefox all */
-  -ms-user-select: none;      /* IE 10+ */
-  user-select: none;          /* Likely future */   
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
 }
 
 .foreword-description {
   display: block;
-  color: rgba(29,28,29,1);
+  color: rgba(29, 28, 29, 1);
   font-size: 1.1rem;
   line-height: 1.5;
 }
 
 .foreword-buttons-container {
   padding-top: 8px;
-  display: inline-flex; 
+  display: inline-flex;
 }
 
 .foreword-buttons {
@@ -607,7 +609,7 @@
 }
 
 .enabled {
-  color: #0B4C8C;
+  color: #0b4c8c;
   opacity: 0.8;
   cursor: pointer;
 }
@@ -620,7 +622,7 @@
 .foreword-icon {
   position: relative;
   font-size: 16px;
-  padding-right:4px;
+  padding-right: 4px;
   bottom: 2px;
 }
 
@@ -642,7 +644,7 @@ li {
 }
 
 .simple-message__container {
-  display:block;
+  display: block;
   padding-top: 4px;
   padding-bottom: 4px;
 }
@@ -662,19 +664,19 @@ li {
   flex-direction: row;
   padding-top: 15px;
   padding-bottom: 15px;
-  width:100%;
+  width: 100%;
 }
 
 .time-separator-line {
   width: 45%;
-  border: 0.5px solid #DDDDDD
+  border: 0.5px solid #dddddd;
 }
 
 .time-separator-date {
   text-align: center;
   width: 160px;
   justify-content: center;
-  padding: .25rem .75rem;
+  padding: 0.25rem 0.75rem;
   font-size: 14px;
   font-weight: 700;
 }
