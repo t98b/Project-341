@@ -55,9 +55,9 @@ const LoginForm = (props) => {
         event.preventDefault();
         // const {email, password} = this.state;
         firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-            firebase.auth().currentUser;
+            const user = firebase.auth().currentUser;
         }).catch(error => {
-            console.log(error)
+            console.log(error);
         });
     }
 
@@ -117,7 +117,6 @@ const SignUpForm = (props) => {
 
     const signUp = () => {
         firebase.auth().createUserWithEmailAndPassword(email, password).then((result) => {
-            firebase.auth().currentUser;
             console.log(result);
         }).catch(function(error) {
             // Handle Errors here.
