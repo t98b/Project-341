@@ -9,7 +9,6 @@ export const InputField = (props) => {
     const path = props.path;
     const context = props.context;
     const sendTo = props.sendTo;
-    console.log(sendTo);
 
     const onChange = (event) => {
         setMessage(event.target.value);
@@ -18,6 +17,7 @@ export const InputField = (props) => {
     const isDirectMessage = () => {
         return 
     }
+
 
     const sendMessage = (event) => {	
         event.preventDefault();		
@@ -36,9 +36,15 @@ export const InputField = (props) => {
     }
 
     return(
-        <form className="input-field-container" onSubmit={sendMessage}>
-            <span className="input-field-container--icon"><PaperclipIcon /></span>
-            <input className="input-field-container--inputField" value={message} onChange={onChange} placeholder={'Message '} />
-        </form>
+        <div className="footer-container">
+            <form className="input-field-container" onSubmit={sendMessage}>
+                <span className="input-field-container--icon"><PaperclipIcon /></span>
+                <input className="input-field-container--inputField" value={message} onChange={onChange} placeholder={'Message '} />
+            </form>
+            <div className={message.length > 2 ? "footer-tip footer-tip--displayed" : "footer-tip footer-tip--hidden"}>
+                <span className="footer-send-tip"><b>Return</b> to send </span>
+                <span><b>Shift + Return</b> to add a new line</span>
+            </div>
+        </div>
     );
 };

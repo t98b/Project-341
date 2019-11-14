@@ -8,29 +8,38 @@ export const Main = () => {
     const [channels, setChannels] = useState([]);
     const [targetName, setTargetName] = useState('');
     const [context, setContext] = useState('');
-    const [boardData, setBoardData] = useState(channels[0]);
-    const [sendTo, setSendTo] = useState(channels[0]);
+    const [boardData, setBoardData] = useState();
+    const [sendTo, setSendTo] = useState();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
-        let channelsAr = [];
-        
+        fetchChannelsData();
+    }, []);
+
+
+    const fetchChannelsData = () => {
         firebase.firestore().collection("channels").onSnapshot((snap) => {
+            //include channel array since before it was outside the listenner an
+            let channelsAr = [];
             snap.forEach(channel => {
                 channelsAr.push({
                     ...channel.data(),
                     id: channel.id
                 });
             });
-
-            setChannels(channelsAr);
-            setLoading(false);
-            console.log("New channels set", channels);
+             setData(channelsAr);
+             
         });
+    }
 
-        setSendTo(channels.id);
-    }, [channels.length]);
+
+    const setData = (d) => {
+        setChannels(d);
+        setBoardData(d[0]);
+        setSendTo(d[0]);
+        setLoading(false);
+        
+    }
 
     const clickMenu = (event) => {
         setTargetName(event.target.innerText);
@@ -51,8 +60,13 @@ export const Main = () => {
          <div className='main__layout' >
              {!loading && 
              <React.Fragment>
-                <LeftSection channels={channels} onClick={clickMenu} />
-                <RightSection sendTo={sendTo} data={boardData} />
+                 {
+                 loading ? <h1>HELLO</h1>:
+                    <React.Fragment>
+                        <LeftSection channels={channels} onClick={clickMenu} />
+                        <RightSection sendTo={sendTo} data={boardData} />
+                    </React.Fragment>
+                 }
              </React.Fragment>
              }
          </div>
