@@ -1,9 +1,9 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library }  from '@fortawesome/fontawesome-svg-core';
-import { faEyeSlash, faEye , faPlusSquare, faUser} from '@fortawesome/free-regular-svg-icons';
+import { faEyeSlash, faEye , faPlusSquare, faUser, faBell} from '@fortawesome/free-regular-svg-icons';
 import { faTimes, faCheck, faChevronDown, faPaperclip, faPen } from '@fortawesome/free-solid-svg-icons';
-import { faStar as farStar} from '@fortawesome/free-regular-svg-icons';
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar} from '@fortawesome/free-solid-svg-icons';
 
 
@@ -18,7 +18,8 @@ library.add(
     farStar, 
     fasStar, 
     faUser,
-    faPen
+    faPen,
+    faBell
 );
 
 export const EyeSlashIcon = () => <FontAwesomeIcon icon={faEyeSlash}/>;
@@ -42,3 +43,5 @@ export const SolidStarIcon = () => <FontAwesomeIcon icon={fasStar} size='xs'/>
 export const UserIcon = () => <FontAwesomeIcon icon={faUser} size='xs'/>
 
 export const PenIcon = () => <FontAwesomeIcon icon={faPen} size='xs'/>
+
+export const BellIcon = () => <FontAwesomeIcon icon={faBell} size='xs'/>
