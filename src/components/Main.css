@@ -276,48 +276,6 @@
   color: rgba(29, 28, 29, 0.7);
 }
 
-.status-indicator::before {
-  content: "\2022";
-  color: #38e500;
-  margin-right: 6px;
-  font-size: 18px;
-}
-
-.status-indicator {
-  margin-top: -4px;
-  margin-bottom: -4px;
-}
-
-.status-username {
-  font-size: 14px !important;
-  line-height: 1.46668;
-  font-weight: 400;
-  color: white;
-  opacity: 0.7;
-}
-
-.status-header {
-  letter-spacing: -0.2px;
-  font-size: 18px;
-}
-
-.main__layout--userInfo:hover .status-username {
-  opacity: 1;
-}
-
-.chevron {
-  display: inline-block;
-  vertical-align: middle;
-  padding-left: 4px;
-  font-size: 11px !important;
-  opacity: 0.7;
-  margin-bottom: 5.5px;
-}
-
-.main__layout--userInfo:hover .chevron {
-  opacity: 1;
-}
-
 .input-field-container {
   display: flex;
   position: relative;
