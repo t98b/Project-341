@@ -59,6 +59,11 @@
     color: #C6C7C8;
 }
 
+.status-notification-bell:hover{
+    color: white;
+}
+
+
 .chevron {
     display: inline-block;
     vertical-align: middle;
