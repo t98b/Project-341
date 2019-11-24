@@ -7,6 +7,15 @@
   overflow: hidden;
 }
 
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+   -khtml-user-select: none; 
+     -moz-user-select: none; 
+      -ms-user-select: none; 
+          user-select: none;
+}
+
 *:focus {
   outline: none;
 }
@@ -33,23 +42,6 @@ button {
   min-height: 0;
   height: calc(100vh - 128px);
   overflow-y: scroll;
-}
-
-.main__layout--userInfo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1.33334;
-  padding: 8px 16px;
-  font-weight: 900;
-  color: #FFFFFF;
-  font-size: 18px;
-  display: block;
-  text-overflow: ellipsis;
-}
-
-.main__layout--userInfo:hover{
-  background-color: black;
 }
 
 .longButton__header {
@@ -115,10 +107,13 @@ button {
   display: flex;
   line-height: 26px;
   padding: 0 12px 0 15px;
-  width: 100%;
   cursor: pointer;
   font-size: 15px;
   border-radius: 0;
+}
+
+.section__channel:hover {
+  background-color: black;
 }
 
 .section__channels {
@@ -203,10 +198,6 @@ button {
   font-size: 16px;
   color: #6b6b6c;
   padding-right: 5px;
-}
-
-.container_channel:hover {
-  background-color: black;
 }
 
 .message-header-container {
