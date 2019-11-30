@@ -112,7 +112,12 @@ button {
   border-radius: 0;
 }
 
-.section__channel:hover {
+.section__channel--selected {
+  color: white;
+  background-color: #0676B9;
+}
+
+.section__channel:not(.section__channel--selected):hover {
   background-color: black;
 }
 
