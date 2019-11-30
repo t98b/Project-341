@@ -12,6 +12,6 @@ branches:
 script:
     - unset CI
     - npm run build
-    - npm run test -- --watchAll=false --runInBand
+    - npm run test -- --watchAll=false --runInBand 
 services:
   - docker
