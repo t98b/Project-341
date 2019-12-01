@@ -51,7 +51,7 @@
 
 .floatingField__input {
   width: 85%;
-  font-size: calc(2vw - 15px);
+  font-size: calc(2em - 15px);
   border: none;
 }
 
@@ -153,11 +153,7 @@
 
 .popUp__bottom {
   padding: 24px 26px;
-  width: calc(100% - 52px);
-  position: relative;
-  display: inline-flex;
-  justify-content: initial;
-  text-align: right;
+  display: block;
 }
 
 .basicButton {
@@ -171,14 +167,22 @@
 }
 .basicButton--disabled {
   background-color: rgba(29, 28, 29, 0.13);
+  pointer-events: none;
 }
 
 .basicButton--disabled {
-  background-color: darkgrey;
+  background-color: #DDD;
+  border: none;
 }
 
 .basicButton--enabled {
-  background-color: green;
+  color: white;
+  background-color: #138567;
+  border: none;
+}
+.basicButton--enabled:hover {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+  background: rgb(20, 133, 103);
 }
 
 .toggle__container {

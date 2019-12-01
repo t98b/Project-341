@@ -6,14 +6,18 @@ import firebase from './../firebase.config';
 
 export const Main = (props) => {
     const [channels, setChannels] = useState([]);
-    const [targetName, setTargetName] = useState('');
+    const [selectedChannel, setSelectedChannel] = useState('');
+    const [directMessages, setDirectMessages] = useState([]);
     const [context, setContext] = useState('');
-    const [boardData, setBoardData] = useState();
+    const [boardData, setBoardData] = useState(channels[0]);
     const [sendTo, setSendTo] = useState();
     const [loading, setLoading] = useState(true);
 
+    const currentUser = firebase.auth().currentUser;
+
     useEffect(() => {
         fetchChannelsData();
+        fetchDirectMessagesData();
     }, []);
 
 
@@ -31,18 +35,34 @@ export const Main = (props) => {
         });
     }
 
+    const fetchDirectMessagesData= () => {
+        firebase.firestore().collection("directMessages").onSnapshot((snap) => {
+            //include channel array since before it was outside the listenner an
+            let dms = [];
+            snap.forEach(dm => {
+                dms.push({
+                    ...dm.data(),
+                    id: dm.id
+                });
+            });
+            setDms(dms);
+        });
+    }
+
 
     const setData = (d) => {
         setChannels(d);
         setBoardData(d[0]);
         setSendTo(d[0]);
         setLoading(false);
-        
+    }
+
+    const setDms= (d) => {
+        setDirectMessages(d);
     }
 
     const clickMenu = (event) => {
-        setTargetName(event.target.innerText);
-        getChannelData(event.target.innerText);
+        getChannelData(event.currentTarget.lastElementChild.innerText);
     };
     
 
@@ -50,6 +70,7 @@ export const Main = (props) => {
         for(const channel of channels) {
             if (channel.name === menu) {
                 setSendTo(channel.id)
+                setSelectedChannel(channel.name);
                 return setBoardData(channel);
             }
         }
@@ -62,8 +83,17 @@ export const Main = (props) => {
                  {
                  loading ? <h1>HELLO</h1>:
                     <React.Fragment>
-                        <LeftSection channels={channels} onClick={clickMenu} user={props.user}/>
-                        <RightSection sendTo={sendTo} data={boardData} />
+                        <LeftSection 
+                        channels={channels} 
+                        directMessages={directMessages} 
+                        onClick={clickMenu} 
+                        uid={currentUser}
+                        selectedChannel={boardData}
+                        />
+                        <RightSection 
+                        sendTo={sendTo} 
+                        data={boardData} 
+                        />
                     </React.Fragment>
                  }
              </React.Fragment>

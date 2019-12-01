@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './../../App.css';
 import { LeftMenuHeaderButton } from './../shared/LeftMenuHeaderButton';
 import { Toggle } from './../shared/toggle';
 import { BasicButton }  from './../shared/BasicButton';
 import { FloatingLabelTextField } from './../shared/FloatingLabelTextField';
 import firebase from 'firebase';
+import { EventEmitter } from 'events';
 
 
 export const ChannelSection = (props) => {
@@ -14,9 +15,9 @@ export const ChannelSection = (props) => {
     const [showOverlay, setShowOverlay] = useState(false);
     const [privateChannel, setPrivateChannel] = useState(false);
     const [disabled, setDisabled] = useState(true);
-    const [selected, setSelected] = useState(false);
+    const participants = props.uid;
 
-    const click = () => {
+    const openModal = () => {
         setShowOverlay(true);
     };
 
@@ -25,50 +26,77 @@ export const ChannelSection = (props) => {
         setPrivateChannel(opposite)
     }
 
-    const close = () => {
+    const closeModal = () => {
         setShowOverlay(false);
         setPrivateChannel(false)
     };
 
     const onChannelNameChange= (event) => {
         setName(event.target.value);
-        if(event.target.value.length > 0) {
+
+        if(event.target.value.length > 0 && !channelAlreadyExist(event.target.value)) {
             setDisabled(false);
+        }
+        else {
+            setDisabled(true);
         }
     };
 
+    const channelAlreadyExist = (value) => {
+        for(const chan of props.channels) {
+            if (value === chan.name) {
+                return true
+            }
+        }
+        return false;
+    }
+
     const onChannelDescChange= (event) => {
         setDesc(event.target.value);
-        if(event.target.value.length > 0) {
-            setDisabled(false);
-        }
     };
 
     const onSubmit = () => {
         const currentDate = new Date();
+        let id = '';
         firebase.firestore().collection('channels').add({
             name: name,
             privateChannel: privateChannel,
             messages: [],
             description: desc,
-            date: currentDate
+            date: currentDate,
+            users:[]
+        }).then((docRef) => {
+            id = docRef.id
+            addChannelCreatorToGroup(docRef.id)
         });
-        close(); //close pop-up after adding channel
+        closeModal(); //close pop-up after adding channel
+    };
+
+    const addChannelCreatorToGroup = (id) => {
+        let ref = firebase.firestore().collection("channels").doc(id);
+        ref.update({
+            users: firebase.firestore.FieldValue.arrayUnion(
+                participants.uid
+            )
+        });
     };
 
     return(
         <div className="main__layout--channels">
             <LeftMenuHeaderButton
             label={'Channels'} 
-            onClick={click}
+            onClick={openModal}
             />
             <Channels 
             channels={props.channels} 
+            selectedChannel={props.selectedChannel}
             onClick={props.onClick}
+            uid={props.uid}
             />
            { showOverlay ? <PopUpAddChannel 
            disabled={disabled}
-           closeOverlay={close} 
+           channels={props.channels}
+           closeOverlay={closeModal} 
            selected={privateChannel}
            onNameChange={onChannelNameChange} 
            onDescChange={onChannelDescChange} 
@@ -81,8 +109,9 @@ export const ChannelSection = (props) => {
 
 const Channel = (props) => {
     return (
-        <div className="section__channel container_channel">
-            <span className="section__channel--hashtag">#</span> <span onClick={props.onClick}>{props.name}</span>
+        <div className={props.selectedChannel ? "section__channel no-select section__channel--selected" : "section__channel no-select"} 
+        onClick={props.onClick}>
+            <span className="section__channel--hashtag">#</span> <span>{props.name}</span>
         </div>
     );
 }
@@ -90,17 +119,33 @@ const Channel = (props) => {
 
 const Channels = (props) => {
     const channels = props.channels;
+    const user = props.uid;
+    let filteredChannels = [];
+
+    for (const channel of channels) {
+        if (channel.users.includes(user.uid)){
+            filteredChannels.push(channel);
+        }
+    }
+
+    const selectedChannel = (channel) => {
+        return props.selectedChannel === channel;
+    }
+
     return (
         <div className="section__channels">
-            { channels.map((channel) => 
-                <Channel key={channel.id} name={channel.name} onClick={props.onClick}/>
+            { filteredChannels.map((channel) => 
+                <Channel key={channel.id} name={channel.name} onClick={props.onClick} selectedChannel={selectedChannel(channel)}/>
             )}
         </div>
     );
 }
 
 const PopUpAddChannel = (props) => {
+    const node = useRef();
+
     const emptyFieldMessage = 'Don’t forget to name your channel.';
+    const channelAlreadyExistError = 'That name is already taken by a channel, username, or user group'
     const nameTooLongMessage = 'Channel names can’t be longer than 80 characters.';
     const channelDescription = 'Channels are where your members communicate. They\'re best when organized around a topic - #proj-budget, for example.'
     const toggleDefaultDesc = 'When a channel is set to private, it can only be viewed or joined by invitation.';
@@ -109,9 +154,17 @@ const PopUpAddChannel = (props) => {
 
     const displayToggleDesc = props.selected ? toggleSelectedDesc : toggleDefaultDesc;
 
+    const closeModal = () => props.closeOverlay;
+
+    const clickHandler = (event) => {
+        if(!node.current.contains(event.target)){
+            closeModal()();
+        }
+    };
+
     return(
-        <div className="section__overlay" >
-            <div className="popUp">
+        <div className="section__overlay" onClick={clickHandler}>
+            <div className="popUp" ref={node}>
                 <div className="popUp__top">
                     <span className="popUp__header">{props.selected ? 'Create a private channel': 'Create a channel'}</span> 
                     <div className='closeButton__container'>
