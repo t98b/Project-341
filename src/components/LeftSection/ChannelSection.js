@@ -15,6 +15,7 @@ export const ChannelSection = (props) => {
     const [showOverlay, setShowOverlay] = useState(false);
     const [privateChannel, setPrivateChannel] = useState(false);
     const [disabled, setDisabled] = useState(true);
+    const [channelExists, setchannelExists] = useState(false);
     const participants = props.uid;
 
     const openModal = () => {
@@ -34,11 +35,15 @@ export const ChannelSection = (props) => {
     const onChannelNameChange= (event) => {
         setName(event.target.value);
 
-        if(event.target.value.length > 0 && !channelAlreadyExist(event.target.value)) {
-            setDisabled(false);
-        }
-        else {
-            setDisabled(true);
+        if(event.target.value.length > 0) {
+            if (channelAlreadyExist(event.target.value)) {
+                setchannelExists(true);
+                return setDisabled(true);
+            }
+            setchannelExists(false);
+            return setDisabled(false);
+        } else {
+            return setDisabled(true);
         }
     };
 
@@ -56,8 +61,8 @@ export const ChannelSection = (props) => {
     };
 
     const onSubmit = () => {
-        const currentDate = new Date();
         let id = '';
+        const currentDate = new Date();
         firebase.firestore().collection('channels').add({
             name: name,
             privateChannel: privateChannel,
@@ -95,6 +100,7 @@ export const ChannelSection = (props) => {
             />
            { showOverlay ? <PopUpAddChannel 
            disabled={disabled}
+           channelExists={channelExists}
            channels={props.channels}
            closeOverlay={closeModal} 
            selected={privateChannel}
@@ -118,23 +124,13 @@ const Channel = (props) => {
 
 
 const Channels = (props) => {
-    const channels = props.channels;
-    const user = props.uid;
-    let filteredChannels = [];
-
-    for (const channel of channels) {
-        if (channel.users.includes(user.uid)){
-            filteredChannels.push(channel);
-        }
-    }
-
     const selectedChannel = (channel) => {
         return props.selectedChannel === channel;
     }
 
     return (
         <div className="section__channels">
-            { filteredChannels.map((channel) => 
+            {props.channels.map((channel) => 
                 <Channel key={channel.id} name={channel.name} onClick={props.onClick} selectedChannel={selectedChannel(channel)}/>
             )}
         </div>
@@ -166,7 +162,7 @@ const PopUpAddChannel = (props) => {
         <div className="section__overlay" onClick={clickHandler}>
             <div className="popUp" ref={node}>
                 <div className="popUp__top">
-                    <span className="popUp__header">{props.selected ? 'Create a private channel': 'Create a channel'}</span> 
+                    <span className="popUp__header">{props.selected ? 'Create a private channel' : 'Create a channel'}</span> 
                     <div className='closeButton__container'>
                         <span className='popUp__closeButton' onClick={props.closeOverlay}></span>
                     </div>
@@ -175,9 +171,11 @@ const PopUpAddChannel = (props) => {
                     <div>
                         <span className='popUp_briefDesc'> {channelDescription} </span>
                     </div>
+                    {console.log(props.channelExists)}
                     <FloatingLabelTextField 
-                    header={'Name'} 
-                    errorEmptyField={emptyFieldMessage} 
+                    header={'Name'}
+                    exception={props.channelExists}
+                    errorEmptyField={props.channelExists ? channelAlreadyExistError : emptyFieldMessage} 
                     errorNameTooLong={nameTooLongMessage}
                     beforeIcon={'#'} 
                     placehoder={'e.g. plan-budget'} 
@@ -191,7 +189,6 @@ const PopUpAddChannel = (props) => {
                     beforeIcon={'#'}
                     underField={underField}
                     />
-
                     <Toggle 
                     toggleHeader='Make private'
                     toggleDesc={displayToggleDesc}
