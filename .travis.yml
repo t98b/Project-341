@@ -1,11 +1,15 @@
 language: node_js
 node_js:
-  - "10"
+    - '10'
+install:
+    - npm install
+sudo: required
 git:
-  quite: true
-  depth: 1
-  submodules: false
-cache: npm
+   - depth: 1
+branches:
+   only:
+    - master
 script:
- - unset CI
- - npm run build
+    - unset CI
+    - npm run build
+    - npm run test -- --watchAll=false --runInBand

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MessageBoard } from './MessageBoard';
+import { FloatingLabelTextField } from './FloatingLabelTextField';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<MessageBoard />, div);
+  ReactDOM.render(<FloatingLabelTextField />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
