@@ -7,7 +7,6 @@ import firebase from './../../firebase.config';
 export const Login = () => {
 
     const [signUp, setSignUp] = useState(false);
-    const [fieldsEmpty, setFieldsEmpty] = useState(true);
 
     const showSignUp = () => {
         return setSignUp(true)
@@ -53,7 +52,6 @@ const LoginForm = (props) => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        // const {email, password} = this.state;
         firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
             const user = firebase.auth().currentUser;
         }).catch(error => {
@@ -76,13 +74,6 @@ const LoginForm = (props) => {
             ></PasswordField>
             <LoginButton label={'Sign In'} action={handleSubmit}></LoginButton>
             <SignUpButton showSignUp={props.showSignUp}></SignUpButton>
-            {/* Facebook Button */}
-            <div className="fb-login-button" 
-            data-width="180" 
-            data-size="large" 
-            data-button-type="continue_with" 
-            data-auto-logout-link="false" 
-            data-use-continue-as="false"></div>
         </div>
     );
 };
@@ -94,6 +85,7 @@ const SignUpForm = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    let id = '';
 
     const onEmailChange = (event) => {
         setEmail(event.target.value);
@@ -114,34 +106,51 @@ const SignUpForm = (props) => {
     const hidePasswordToggle = () => {
         return hidePassword === 'text' ? setHidePassword('password') : setHidePassword('text');
     }
-
-    const signUp = () => {
-        firebase.auth().createUserWithEmailAndPassword(email, password).then((result) => {
-            console.log(result);
-        }).catch(function(error) {
-            // Handle Errors here.
-            // var errorCode = error.code;
-            // var errorMessage = error.message;
-            // ...
-        });
-    }
-
+    
     const handleSubmit = event => {
         if (password === confirmPassword) {
             event.preventDefault();
             // const {email, username, password} = this.state;
-            firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-                // const user = firebase.auth().currentUser;
-                // user.updateProfile({displayName: username}).then(() => {
-                //     this.props.history.push('/');
-                // })
-                // .catch(error => {
-                //     this.setState({error});
-                // });
+            firebase.auth().createUserWithEmailAndPassword(email, password).then((result) => {
+                id = result.user.uid;
+                firebase.database().ref("users/" + result.user.uid).set({
+                    "username": username,
+                    "email": result.user.email,
+                    "uid": result.user.uid
+                })
+                addToGeneralChannel(result.user.uid);
+                addToUsersDictionnary(result.user.uid, username);
             }).catch(error => {
-                this.setState({error});
+                console.log(error);
             });
         }
+    }
+
+    const addToUsersDictionnary = (uid, username) => {
+        const newUser = {
+            id: uid,
+            username: username
+        }
+
+        firebase.firestore().collection("users").get().then((result) => {
+            const userStoreID = result.docs[0].id;
+            firebase.firestore().collection("users").doc(userStoreID).update({
+                users: firebase.firestore.FieldValue.arrayUnion(
+                    newUser
+                )
+            });
+        });
+    }
+
+    const addToGeneralChannel = (id) => {
+        firebase.firestore().collection("channels").orderBy("date", "asc").limit(1).get().then((result) => {
+            const channelID = result.docs[0].id;
+            firebase.firestore().collection("channels").doc(channelID).update({
+                users: firebase.firestore.FieldValue.arrayUnion(
+                    id
+                )
+            })
+        });
     }
 
     return (  

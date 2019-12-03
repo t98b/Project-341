@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './../../Main.css';
 import './../../../App.css';
-import { RegularStarIcon, UserIcon, PenIcon } from './../../shared/Icon';
+import { RegularStarIcon, UserIcon, PenIcon, Pin } from './../../shared/Icon';
 import ReactTooltip from 'react-tooltip'
 
 export const BoardHeader = (props) => {
-    const data = props.data;
+    const data = props.boardData;
     return(
         <div className="board-header">
             {data &&             
@@ -17,11 +17,12 @@ export const BoardHeader = (props) => {
                         </span> 
                         <span className="board-seperator">|</span>
                         <span className="board-icon board-icon--user"> 
-                            <UserIcon /> {props.users}
+                            <UserIcon /> 
+                            <span className="board-iconText">{data.users.length}</span>
                         </span> 
                         <span className="board-seperator">|</span> 
-                        <span className="board-icon board-icon--star"> 
-                            <RegularStarIcon />
+                        <span className="board-icon board-icon--user"> 
+                            <Pin />
                         </span> 
                         <span className="board-seperator">|</span> 
                         <AddTopicField />

@@ -40,7 +40,7 @@ const ChannelName = () => {
     return (
         <div>
             <span className="status-header">Project341</span> <div className="chevron"><ChevronDownIcon /></div> 
-            <span className="status-notification-bell"><BellIcon /></span>
+            <span className="status-notification-bell"><BellIcon/></span>
         </div>
     );
 }
