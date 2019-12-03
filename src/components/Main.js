@@ -1,37 +1,44 @@
 import React, {useState, useEffect} from 'react';
-import { LeftSection } from './LeftSection/LeftSection';
+import { Menu } from './Menu/Menu';
 import './../App.css';
 import { RightSection } from './RightSection/RightSection';
 import firebase from './../firebase.config';
 
-export const Main = (props) => {
+export const Main = () => {
     const [channels, setChannels] = useState([]);
-    const [selectedChannel, setSelectedChannel] = useState('');
     const [directMessages, setDirectMessages] = useState([]);
-    const [context, setContext] = useState('');
-    const [boardData, setBoardData] = useState(channels[0]);
-    const [sendTo, setSendTo] = useState();
+    const [boardData, setBoardData] = useState();
     const [loading, setLoading] = useState(true);
+    const [index, setIndex] = useState(0);
 
     const currentUser = firebase.auth().currentUser;
 
     useEffect(() => {
         fetchChannelsData();
         fetchDirectMessagesData();
-    }, []);
+    }, [index]);
 
 
     const fetchChannelsData = () => {
         firebase.firestore().collection("channels").onSnapshot((snap) => {
+            setLoading(true);
             //include channel array since before it was outside the listenner an
             let channelsAr = [];
+            console.log(currentUser.uid);
             snap.forEach(channel => {
-                channelsAr.push({
-                    ...channel.data(),
-                    id: channel.id
-                });
+                const channelData = channel.data();
+                if(channelData.users.includes(currentUser.uid)){
+                    channelsAr.push({
+                        ...channelData,
+                        id: channel.id
+                    });
+                }
             });
-             setData(channelsAr);
+            console.log(channelsAr);
+            setData(channelsAr, index);
+            if (channelsAr.length > 0) {
+                setLoading(false);
+            }
         });
     }
 
@@ -49,12 +56,10 @@ export const Main = (props) => {
         });
     }
 
-
-    const setData = (d) => {
-        setChannels(d);
-        setBoardData(d[0]);
-        setSendTo(d[0]);
-        setLoading(false);
+    const setData = (data, i) => {
+        setChannels(data)
+        console.log(data);
+        setBoardData(data[i]);
     }
 
     const setDms= (d) => {
@@ -69,35 +74,29 @@ export const Main = (props) => {
     const getChannelData = (menu) => {
         for(const channel of channels) {
             if (channel.name === menu) {
-                setSendTo(channel.id)
-                setSelectedChannel(channel.name);
+                setIndex(channels.indexOf(channel));
                 return setBoardData(channel);
             }
         }
     }
 
      return (
-         <div className='main__layout' >
-             {!loading && 
-             <React.Fragment>
-                 {
-                 loading ? <h1>HELLO</h1>:
-                    <React.Fragment>
-                        <LeftSection 
-                        channels={channels} 
-                        directMessages={directMessages} 
-                        onClick={clickMenu} 
-                        uid={currentUser}
-                        selectedChannel={boardData}
-                        />
-                        <RightSection 
-                        sendTo={sendTo} 
-                        data={boardData} 
-                        />
-                    </React.Fragment>
-                 }
-             </React.Fragment>
-             }
-         </div>
+        <div className='main__layout' >
+            {!loading &&
+            <React.Fragment>
+                <Menu 
+                channels={channels} 
+                directMessages={directMessages} 
+                onClick={clickMenu} 
+                uid={currentUser}
+                selectedChannel={boardData}
+                />
+                <RightSection 
+                sendTo={boardData} 
+                boardData={boardData}
+                />
+            </React.Fragment>
+            }
+        </div>
      );
 };

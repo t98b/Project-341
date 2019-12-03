@@ -23,7 +23,7 @@ export const InputField = props => {
   const isDirectMessage = () => {
     return;
   };
-  const messageType = message => {
+  const messageType = (message) => {
     const newMessage = {
       message: message,
       user: props.user,
@@ -32,7 +32,7 @@ export const InputField = props => {
     return newMessage;
   };
 
-  const uploadMessage = newMesssage => {
+  const uploadMessage = (newMesssage) => {
     let messagesRef = firebase
       .firestore()
       .collection("channels")

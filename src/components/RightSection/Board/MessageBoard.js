@@ -1,25 +1,25 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './../../../App.css';
 import './../../Main.css';
 import moment from 'moment';
 import { UserIcon, PenIcon } from './../../shared/Icon';
+import { AddUserModal } from '../../shared/AddUserModal';
 
 export const MessageBoard = (props) => {
-    const data = props.data;
-    const messages = data !== undefined ? data.messages : null;
-
-    return(
-        <MessageSection messages={messages} data={data}/>
-    );
-};
-
-const MessageSection = (props) => {
-    const messages = props.messages;
-    const data = props.data;
-    const firstMessage = props.messages && props.messages.length > 0 ? props.messages[0] : null;
-
+    const lastMessageRef = useRef();
+    const messages = props.boardData.messages;
+    const data = props.boardData;
+    const firstMessage = messages && messages.length > 0 ? messages[0] : null;
     let lastUser = '';
-    let lastTime = firstMessage ? firstMessage.time : new Date();
+    let lastTime = firstMessage ? firstMessage.timestamp : new Date();
+
+    const [showModal, setShowModal] = useState(false);
+    
+    useEffect(() => {
+        if(messages.length > 0) {
+            lastMessageRef.current.scrollIntoView();
+        }
+    }, [messages.length]);
 
     const isDifferentUser = (LastMessageUser) => { 
         if(lastUser !== LastMessageUser) {
@@ -28,16 +28,24 @@ const MessageSection = (props) => {
         return false;
     }
 
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
     const isLongDelay = (lastMessageTime) => {
-        const now = moment(lastTime);
-        const end = moment(lastMessageTime);
+        const now = moment(lastTime.toDate());
+        const end = moment(lastMessageTime.toDate());
 
-        const duration = moment.duration(now.diff(end)).asHours();
+        const duration = moment.duration(end.diff(now)).asHours();
 
-        if (props.messages[0].time === lastMessageTime) {
+        if (messages[0].time === lastMessageTime) {
             return true;
         }
-        //Decided for 2hours for particular reason
+        //Decided for 2hours for no particular reason
         if (duration > 2) {
             return true;
         }
@@ -45,30 +53,38 @@ const MessageSection = (props) => {
     }
 
     const setNewValue = (message) => {
-        lastTime = message.time;
+        lastTime = message.timestamp;
         lastUser = message.user;
     }
     
     return(
-        <React.Fragment>
+        <div className="main__layout--board">
             <FirstMessage 
             data={data}
+            addUsers={openModal}
             />
-            {messages && messages.map(message => 
-                <li key={message.id}>
-                    {isLongDelay(message.time) ? <TimeSeperator time={message.time} /> : null}
-                    {isDifferentUser(message.user) || isLongDelay(message.time) ? 
-                        <MessageHeader 
-                        date={message.time} 
+            {messages.map((message, index) => 
+                <li ref={index === messages.length-1 ? lastMessageRef : null} key={index}>
+                    {isLongDelay(message.timestamp) ? <TimeSeperator time={message.timestamp.toDate()} /> : null}
+                    {isDifferentUser(message.user) || isLongDelay(message.timestamp) ? 
+                        <MessageHeader
+                        date={message.timestamp.toDate()} 
                         user={message.user} 
                         message={message.message}
                         /> : 
-                        <SimpleMessage time={message.time} message={message.text} />
+                        <SimpleMessage 
+                        time={message.timestamp.toDate()} 
+                        message={message.message} 
+                        />
                     }
                     {setNewValue(message)}
                 </li>
             )}
-        </React.Fragment>
+            {showModal ? <AddUserModal 
+            closeModal={closeModal}
+            channelName={data.name}
+            /> : null}
+        </div>
     );
 };
 
@@ -110,14 +126,6 @@ const formatTime = (time) => {
     return moment(time).format("LT")
 }
 
-const UserMessages = (props) => {
-    return(
-        <div className="user-message">
-            <SimpleMessage time={props.time} message={props.message}/>
-        </div>
-    );
-}
-
 const SimpleMessage = (props) => {
     return(
         <div className="simple-message__container">
@@ -130,6 +138,8 @@ const SimpleMessage = (props) => {
 
 const FirstMessage = (props) => {
     const data = props.data;
+    const [showOverlay, setShowOverlay] = useState(false);
+
     return(
         <div className="message-foreword">
             {data !== undefined ? 
@@ -139,7 +149,7 @@ const FirstMessage = (props) => {
                     <span className="foreword-buttons-container">
                         <ForeWordButton label={"Set a description"} icon={<PenIcon />}/> 
                         <ForeWordButton label={"Add an app"} isDisabled={true} icon={'+'}/> 
-                        <ForeWordButton label={"Add people to this channel"} icon={<UserIcon />}/> 
+                        <ForeWordButton label={"Add people to this channel"} icon={<UserIcon />} onClick={props.addUsers}/> 
                     </span>
                 </React.Fragment>
                 : null
@@ -150,7 +160,7 @@ const FirstMessage = (props) => {
 
 const ForeWordButton = (props) => {
     return(
-        <div className={props.isDisabled ? "foreword-buttons disabled" : "foreword-buttons enabled"}>
+        <div className={props.isDisabled ? "foreword-buttons disabled" : "foreword-buttons enabled"} onClick={props.onClick}>
             <span className="foreword-icon">{props.icon}</span>{props.label} 
         </div>
     )
@@ -158,7 +168,6 @@ const ForeWordButton = (props) => {
 
 const TimeSeperator = (props) => {
     const dayString = moment(props.time).format("dddd, MMMM Do");
-
     return(
         <div className="time-seperator-container">
             <div className="time-separator-line">

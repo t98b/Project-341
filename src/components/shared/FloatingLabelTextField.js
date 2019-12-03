@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './../Main.css';
 
 export const FloatingLabelTextField = (props) => {
@@ -13,7 +13,7 @@ export const FloatingLabelTextField = (props) => {
     }; 
 
     const shouldDisplayErrorMessage = (event) => {
-        if ((event.target.value.length < 1) || (event.target.value.length > props.maxLength)) {
+        if((event.target.value.length < 1) || (event.target.value.length > props.maxLength)){
             const error = errorToDisplay(event);
             setErrorMessage(error);
             return setShowError(true);
@@ -30,19 +30,25 @@ export const FloatingLabelTextField = (props) => {
     }
 
     return(
-        <div className='container__floatingField' onChange={remainingChar}>
+        <div className={props.small ? 'container__floatingField--small' : 'container__floatingField'}
+        onChange={remainingChar}>
             <div className='floatingField_container--header'>
                 <span className='floatingField__header'>{props.header}</span>
                 { props.optional ? <span className='floatingField__optional'>(optional)</span> : null} 
-                { showError === true ? <span className='floatingField__desc'> {errorMessage} </span> : null}
+                { showError || props.exception ? 
+                    <span className='floatingField__desc'> 
+                        {props.exception ? props.errorEmptyField : errorMessage} 
+                    </span> : null
+                }
             </div>
-            <div className={showError ? 'floatingField_container--error' : 'floatingField_container'}>
+            <div className={showError || props.exception ? 'floatingField_container--error' : 'floatingField_container'}>
                 <span className='floatingField__icon'> {props.beforeIcon} </span>
                 <input 
                 type='text'
                 className='floatingField__input'
                 placeholder={props.placeholder}
                 onChange={props.onChange}
+                autoFocus={props.autofocus}
                 > 
                 </input>
                 { displayCharCount() ? <span 

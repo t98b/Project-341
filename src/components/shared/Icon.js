@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library }  from '@fortawesome/fontawesome-svg-core';
 import { faEyeSlash, faEye , faPlusSquare, faUser, faBell} from '@fortawesome/free-regular-svg-icons';
-import { faTimes, faCheck, faChevronDown, faPaperclip, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faCheck, faChevronDown, faPaperclip, faPen, faThumbtack} from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar} from '@fortawesome/free-solid-svg-icons';
 
@@ -19,7 +19,8 @@ library.add(
     fasStar, 
     faUser,
     faPen,
-    faBell
+    faBell,
+    faThumbtack
 );
 
 export const EyeSlashIcon = () => <FontAwesomeIcon icon={faEyeSlash}/>;
@@ -45,3 +46,5 @@ export const UserIcon = () => <FontAwesomeIcon icon={faUser} size='xs'/>
 export const PenIcon = () => <FontAwesomeIcon icon={faPen} size='xs'/>
 
 export const BellIcon = () => <FontAwesomeIcon icon={faBell} size='xs'/>
+
+export const Pin = () => <FontAwesomeIcon icon={faThumbtack} size='xs'  transform={{ rotate: 320 }} />

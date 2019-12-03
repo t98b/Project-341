@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { UserInfoSection } from './UserInfoHeader/UserInfoSection';
 import { ChannelSection } from './ChannelSection';
 import { PersonalChatSection } from './PersonalChatSection';
-import { tsPropertySignature } from '@babel/types';
 
 
-export const LeftSection = (props) => {
+export const Menu = (props) => {
     return(
         <div className="main__layout--leftPannel">
             <UserInfoSection 

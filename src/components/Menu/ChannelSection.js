@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import './../../App.css';
-import { LeftMenuHeaderButton } from './../shared/LeftMenuHeaderButton';
-import { Toggle } from './../shared/toggle';
-import { BasicButton }  from './../shared/BasicButton';
-import { FloatingLabelTextField } from './../shared/FloatingLabelTextField';
+import { LeftMenuHeaderButton } from '../shared/LeftMenuHeaderButton';
+import { Toggle } from '../shared/toggle';
+import { BasicButton }  from '../shared/BasicButton';
+import { FloatingLabelTextField } from '../shared/FloatingLabelTextField';
 import firebase from 'firebase';
 import { EventEmitter } from 'events';
 

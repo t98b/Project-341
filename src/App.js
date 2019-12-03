@@ -3,7 +3,7 @@ import "./App.css";
 import { Login } from "./components/Login/Login";
 import { Main } from "./components/Main";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import firebase from './firebase.config';
+import firebase, { auth } from './firebase.config';
 
 const App = () => {
   const [token, setToken] = useState('');
@@ -12,7 +12,9 @@ const App = () => {
   let currentUser;
 
   useEffect(() => {
+    //listener
     verifyToken();
+
     if (typeof Notification !== "undefined") {
       Notification.requestPermission().then(permission => {
         if (permission === "granted") {
@@ -26,6 +28,7 @@ const App = () => {
     }
 
     currentUser = firebase.auth().currentUser;
+    console.log(currentUser);
     firebase.auth().onAuthStateChanged((newUser) => {
       if (user === currentUser) {
         setVerified(true);
@@ -43,6 +46,7 @@ const App = () => {
         // ...
       }
     });
+    
   }, [currentUser]);
 
   const verifyToken = () => {
@@ -51,6 +55,7 @@ const App = () => {
     }
     return setVerified(false);
   }
+
 
   return (
     <div className="App">
