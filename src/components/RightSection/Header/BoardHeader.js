@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './../../Main.css';
 import './../../../App.css';
 import { RegularStarIcon, UserIcon, PenIcon, Pin } from './../../shared/Icon';

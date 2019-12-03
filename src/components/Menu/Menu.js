@@ -12,14 +12,16 @@ export const Menu = (props) => {
             />
             <ChannelSection 
             channels={props.channels} 
-            onClick={props.onClick} 
+            onClick={props.onChannelClick} 
             uid={props.uid} 
             selectedChannel={props.selectedChannel}
+            allChannels={props.allChannels}
             />
             <PersonalChatSection 
             directMessages={props.directMessages} 
             uid={props.uid} 
-            onClick={props.onClick}
+            onClick={props.onDMClick}
+            dms={props.dms}
             />
         </div>
     );

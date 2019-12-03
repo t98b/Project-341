@@ -6,9 +6,11 @@ import firebase from './../firebase.config';
 
 export const Main = () => {
     const [channels, setChannels] = useState([]);
+    const [allChannels, setAllChannels] = useState([]);
     const [directMessages, setDirectMessages] = useState([]);
     const [boardData, setBoardData] = useState();
     const [loading, setLoading] = useState(true);
+    const [isDirectMessage, setIsDirectMessage] = useState(false);
     const [index, setIndex] = useState(0);
 
     const currentUser = firebase.auth().currentUser;
@@ -24,7 +26,7 @@ export const Main = () => {
             setLoading(true);
             //include channel array since before it was outside the listenner an
             let channelsAr = [];
-            console.log(currentUser.uid);
+            let allChannelsAr = [];
             snap.forEach(channel => {
                 const channelData = channel.data();
                 if(channelData.users.includes(currentUser.uid)){
@@ -33,8 +35,12 @@ export const Main = () => {
                         id: channel.id
                     });
                 }
+                allChannelsAr.push({
+                    ...channelData,
+                    id: channel.id
+                })
             });
-            console.log(channelsAr);
+            setAllChannels(allChannelsAr);
             setData(channelsAr, index);
             if (channelsAr.length > 0) {
                 setLoading(false);
@@ -46,11 +52,22 @@ export const Main = () => {
         firebase.firestore().collection("directMessages").onSnapshot((snap) => {
             //include channel array since before it was outside the listenner an
             let dms = [];
-            snap.forEach(dm => {
-                dms.push({
-                    ...dm.data(),
-                    id: dm.id
-                });
+            snap.forEach(dmSnap => {
+                const directMessage = dmSnap.data();
+                let include = false;
+
+                for (const message of directMessage.users) {
+                    if(message.id === currentUser.uid) {
+                        include = true;
+                    }
+                }
+
+                if (include) {
+                    dms.push({
+                        ...directMessage,
+                        id: dmSnap.id
+                    });
+                }
             });
             setDms(dms);
         });
@@ -58,7 +75,6 @@ export const Main = () => {
 
     const setData = (data, i) => {
         setChannels(data)
-        console.log(data);
         setBoardData(data[i]);
     }
 
@@ -66,16 +82,30 @@ export const Main = () => {
         setDirectMessages(d);
     }
 
-    const clickMenu = (event) => {
+    const clickChannelMenu = (event) => {
+        setIsDirectMessage(false);
         getChannelData(event.currentTarget.lastElementChild.innerText);
     };
-    
 
+    const clickDMMenu = (event) => {
+        setIsDirectMessage(true);
+        getDmData(event.currentTarget.innerText);
+    };
+    
     const getChannelData = (menu) => {
         for(const channel of channels) {
             if (channel.name === menu) {
                 setIndex(channels.indexOf(channel));
                 return setBoardData(channel);
+            }
+        }
+    }
+
+    const getDmData = (name) => {
+        for(const dm of directMessages) {
+            if (dm.users[0].name === name || dm.users[1].name === name) {
+                setIndex(directMessages.indexOf(dm));
+                return setBoardData(dm);
             }
         }
     }
@@ -87,13 +117,18 @@ export const Main = () => {
                 <Menu 
                 channels={channels} 
                 directMessages={directMessages} 
-                onClick={clickMenu} 
+                onChannelClick={clickChannelMenu}
+                onDMClick={clickDMMenu}
                 uid={currentUser}
                 selectedChannel={boardData}
+                allChannels={allChannels}
+                dms={directMessages}
                 />
                 <RightSection 
                 sendTo={boardData} 
                 boardData={boardData}
+                user={currentUser}
+                isDirectMessage={isDirectMessage}
                 />
             </React.Fragment>
             }

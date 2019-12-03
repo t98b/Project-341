@@ -57,6 +57,7 @@
   width: 85%;
   font-size: calc(2em - 15px);
   border: none;
+  text-align: left;
 }
 
 .floatingField__length {
@@ -713,4 +714,23 @@ li {
 
 .footer-send-tip {
   padding-right: 16px;
+}
+
+.userSearchList {
+  position: absolute;
+  border: 1px lightgrey solid;
+  width: calc(100% - 52px);
+  border-radius: 4px;
+  margin: 0 25px;
+  z-index: 9999;
+}
+
+.userSearchList__user {
+  display: flex;
+  padding: 8px;
+  background-color: white;
+}
+
+.image-aspect {
+  max-height: 220px;
 }

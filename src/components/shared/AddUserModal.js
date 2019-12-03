@@ -11,6 +11,10 @@ export const AddUserModal = (props) => {
 
     const closeModal = () => props.closeModal;
 
+    const onChange = event => {
+        event.target.value;
+    };
+
     const clickHandler = (event) => {
         if(!node.current.contains(event.target)){
             closeModal()();
@@ -31,7 +35,7 @@ export const AddUserModal = (props) => {
                     <FloatingLabelTextField 
                     autofocus={true}
                     small={true}
-                    placehoder={'Yian, @steve, Paul'} 
+                    placeholder='Yian, @steve, Paul' 
                     onChange={props.onNameChange} 
                     />
                 </div>

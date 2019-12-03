@@ -49,6 +49,7 @@ export const FloatingLabelTextField = (props) => {
                 placeholder={props.placeholder}
                 onChange={props.onChange}
                 autoFocus={props.autofocus}
+                value={props.value}
                 > 
                 </input>
                 { displayCharCount() ? <span 

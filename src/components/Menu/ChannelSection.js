@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react';
 import './../../App.css';
+import './Menu.css';
 import { LeftMenuHeaderButton } from '../shared/LeftMenuHeaderButton';
 import { Toggle } from '../shared/toggle';
 import { BasicButton }  from '../shared/BasicButton';
 import { FloatingLabelTextField } from '../shared/FloatingLabelTextField';
 import firebase from 'firebase';
-import { EventEmitter } from 'events';
+import moment from 'moment';
+
 
 
 export const ChannelSection = (props) => {
@@ -13,13 +15,23 @@ export const ChannelSection = (props) => {
     const [name, setName] = useState('');
     const [desc, setDesc] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
+    const [showSearch, setShowSearch] = useState(false);
     const [privateChannel, setPrivateChannel] = useState(false);
     const [disabled, setDisabled] = useState(true);
     const [channelExists, setchannelExists] = useState(false);
     const participants = props.uid;
+    const channels = props.allChannels;
+
+    const formatTime = (time) => {
+        return moment(time).format("dddd, MMMM Do");
+    };
 
     const openModal = () => {
         setShowOverlay(true);
+    };
+
+    const openSearch = () => {
+        setShowSearch(true);
     };
 
     const toggle = () => {
@@ -30,6 +42,10 @@ export const ChannelSection = (props) => {
     const closeModal = () => {
         setShowOverlay(false);
         setPrivateChannel(false)
+    };
+
+    const closeSearch = () => {
+        setShowSearch(false);
     };
 
     const onChannelNameChange= (event) => {
@@ -56,12 +72,31 @@ export const ChannelSection = (props) => {
         return false;
     }
 
+    const selectChannel = (event) => {
+        const item = event.currentTarget.innerText;
+        const channelHeader = item.split("\n")[0];
+        const channelName = channelHeader.substring(2, channelHeader.length);
+        const channel = getChannel(channelName);
+
+        if (!channel.users.includes(participants)) {
+            addUserToChannel(channel.id);
+        }
+        setShowSearch(false);
+    }
+
+    const getChannel = (name) => {
+        for (const channel of channels) {
+            if (channel.name === name) {
+                return channel;
+            }
+        }
+    }
+
     const onChannelDescChange= (event) => {
         setDesc(event.target.value);
     };
 
     const onSubmit = () => {
-        let id = '';
         const currentDate = new Date();
         firebase.firestore().collection('channels').add({
             name: name,
@@ -71,13 +106,12 @@ export const ChannelSection = (props) => {
             date: currentDate,
             users:[]
         }).then((docRef) => {
-            id = docRef.id
-            addChannelCreatorToGroup(docRef.id)
+            addUserToChannel(docRef.id)
         });
         closeModal(); //close pop-up after adding channel
     };
 
-    const addChannelCreatorToGroup = (id) => {
+    const addUserToChannel = (id) => {
         let ref = firebase.firestore().collection("channels").doc(id);
         ref.update({
             users: firebase.firestore.FieldValue.arrayUnion(
@@ -91,6 +125,7 @@ export const ChannelSection = (props) => {
             <LeftMenuHeaderButton
             label={'Channels'} 
             onClick={openModal}
+            search={openSearch}
             />
             <Channels 
             channels={props.channels} 
@@ -99,16 +134,37 @@ export const ChannelSection = (props) => {
             uid={props.uid}
             />
            { showOverlay ? <PopUpAddChannel 
-           disabled={disabled}
-           channelExists={channelExists}
-           channels={props.channels}
-           closeOverlay={closeModal} 
-           selected={privateChannel}
-           onNameChange={onChannelNameChange} 
-           onDescChange={onChannelDescChange} 
-           onSubmit={onSubmit}
-           onToggle={toggle}
+            disabled={disabled}
+            channelExists={channelExists}
+            channels={props.channels}
+            closeOverlay={closeModal} 
+            selected={privateChannel}
+            onNameChange={onChannelNameChange} 
+            onDescChange={onChannelDescChange} 
+            onSubmit={onSubmit}
+            onToggle={toggle}
            /> : null }
+           { showSearch ?  
+                <div className="search-overlay">
+                    <div className="search-overlay__header-container">
+                        <span className="search-overlay__header">Join Channels</span>
+                        <span className="search-overlay__close" onClick={closeSearch}> X </span>
+                    </div>
+                    <div className="search-overlay__body-container">
+                    <span className="search-overlay__search-header"> List of all available channels </span>
+                        {channels.map((channel, index) => 
+                            <div key={index} className="search-overlay__search-results" onClick={selectChannel}>
+                                <span>
+                                    # {channel.name}
+                                </span>
+                                <span className="search-overlay__search-results-date">
+                                    Created on {formatTime(channel.date.toDate())}
+                                </span>
+                            </div>
+                        )}
+                    </div>
+                </div> : null 
+            }
         </div>
     );
 };
@@ -120,7 +176,7 @@ const Channel = (props) => {
             <span className="section__channel--hashtag">#</span> <span>{props.name}</span>
         </div>
     );
-}
+};
 
 
 const Channels = (props) => {
@@ -135,7 +191,7 @@ const Channels = (props) => {
             )}
         </div>
     );
-}
+};
 
 const PopUpAddChannel = (props) => {
     const node = useRef();
@@ -171,14 +227,13 @@ const PopUpAddChannel = (props) => {
                     <div>
                         <span className='popUp_briefDesc'> {channelDescription} </span>
                     </div>
-                    {console.log(props.channelExists)}
                     <FloatingLabelTextField 
                     header={'Name'}
                     exception={props.channelExists}
                     errorEmptyField={props.channelExists ? channelAlreadyExistError : emptyFieldMessage} 
                     errorNameTooLong={nameTooLongMessage}
                     beforeIcon={'#'} 
-                    placehoder={'e.g. plan-budget'} 
+                    placeholder={'e.g. plan-budget'} 
                     onChange={props.onNameChange} 
                     maxLength={80}
                     />
@@ -204,4 +259,4 @@ const PopUpAddChannel = (props) => {
             </div>
         </div>
     );
-}
+};

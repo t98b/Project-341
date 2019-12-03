@@ -7,3 +7,9 @@ it('renders without crashing', () => {
   ReactDOM.render(<Login />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
+
+it('should navigate to login page if no browser token', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<Login />, div);
+  ReactDOM.unmountComponentAtNode(div);
+});

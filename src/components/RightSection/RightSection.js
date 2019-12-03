@@ -6,12 +6,11 @@ import './../../App.css';
 import './../Main.css';
 
 export const RightSection = (props) => {
-    console.log(props.boardData)
     return(
         <div className="main__layout--rightPannel">
-            <SearchSection boardData={props.boardData} />
+            <SearchSection boardData={props.boardData} isDirectMessage={props.isDirectMessage}/>
             <MessageBoard boardData={props.boardData} />
-            <InputField user={'test'} sendTo={props.boardData.id}/>
+            <InputField user={props.user} sendTo={props.boardData.id} isDirectMessage={props.isDirectMessage}/>
         </div>
     );
 };
@@ -19,7 +18,7 @@ export const RightSection = (props) => {
 const SearchSection = (props) => {
     return(
         <div className="main__layout--search">
-            <BoardHeader boardData={props.boardData} />
+            <BoardHeader boardData={props.boardData} isDirectMessage={props.isDirectMessage}/>
         </div>
     );
 };
