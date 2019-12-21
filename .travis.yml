@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+    - '10'
+install:
+    - npm install
+git:
+   - depth: 1
+branches:
+   only:
+    - master
+script:
+    - unset CI
+    - npm run build
+    - npm run test -- --watchAll=false --runInBand
